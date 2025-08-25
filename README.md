@@ -1,6 +1,7 @@
 # Mobile App Review Scraper API
 
 A comprehensive TypeScript/Express-based REST API for scraping app reviews from both Google Play Store and iOS App Store. Built for large-scale data collection with unlimited review fetching capabilities.
+<img width="1448" height="784" alt="Ekran Resmi 2025-08-25 15 00 30" src="https://github.com/user-attachments/assets/1974129b-b20a-45e7-aa4f-4e6c1126ea6d" />
 
 ## 🌟 Features
 
