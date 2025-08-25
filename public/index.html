@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Google Play Review Dataset</title>
+    <title>Mobile App Review Scraper API</title>
     <style>
         * {
             margin: 0;
@@ -207,7 +207,7 @@
     <div class="container">
         <div class="header">
             <h1>📊 Mobile App Review Dataset</h1>
-            <p>Google Play Store ve App Store uygulamalarından review verilerini CSV formatında indirin</p>
+            <p>Download review data from Google Play Store and App Store applications in CSV format</p>
         </div>
         
         <form id="exportForm">
@@ -220,7 +220,7 @@
             </div>
 
             <div class="form-group">
-                <label for="appUrl" id="urlLabel">App Store Linki</label>
+                <label for="appUrl" id="urlLabel">App Store Link</label>
                 <input 
                     type="url" 
                     id="appUrl" 
@@ -228,13 +228,13 @@
                     required
                 >
                 <small id="urlHelp" style="color: #7f8c8d; font-size: 0.9em; margin-top: 5px; display: block;">
-                    📝 Uygulama URL'sini buraya yapıştırın
+                    📝 Paste the app URL here
                 </small>
             </div>
             
             <div class="options">
                 <div class="form-group">
-                    <label for="reviewCount">Review Sayısı</label>
+                    <label for="reviewCount">Review Count</label>
                     <input 
                         type="number" 
                         id="reviewCount" 
@@ -243,53 +243,53 @@
                         max="1000000"
                         value="500"
                         step="1"
-                        title="Çekilecek review sayısını girin (minimum 1, maksimum 1.000.000)"
+                        title="Enter the number of reviews to fetch (minimum 1, maximum 1,000,000)"
                     >
                     <small style="color: #7f8c8d; font-size: 0.9em; margin-top: 5px; display: block;">
-                        ⚠️ Çok büyük veri setleri uzun sürebilir ve sistem kaynaklarını yoğun kullanabilir.
+                        ⚠️ Very large datasets may take a long time and use intensive system resources.
                     </small>
                 </div>
                 
                 <div class="form-group">
-                    <label for="sortOrder">Sıralama</label>
+                    <label for="sortOrder">Sort Order</label>
                     <select id="sortOrder">
-                        <option value="newest" selected>En Yeni</option>
-                        <option value="rating">Puana Göre</option>
-                        <option value="helpfulness">Yararlılığa Göre</option>
+                        <option value="newest" selected>Newest</option>
+                        <option value="rating">By Rating</option>
+                        <option value="helpfulness">By Helpfulness</option>
                     </select>
                 </div>
             </div>
             
             <button type="submit" class="export-btn" id="exportBtn">
-                📥 CSV Olarak İndir
+                📥 Download as CSV
             </button>
         </form>
         
         <div id="loading" class="loading" style="display: none;">
-            <p>⏳ Veriler çekiliyor ve CSV dosyası oluşturuluyor...</p>
-            <p>Bu işlem birkaç dakika sürebilir.</p>
+            <p>⏳ Fetching data and creating CSV file...</p>
+            <p>This process may take a few minutes.</p>
         </div>
         
         <div id="result" style="display: none;"></div>
         
         <div class="help">
-            <h3>💡 Nasıl Kullanılır?</h3>
-            <p><strong>Google Play Store için:</strong></p>
-            <p>1. Google Play Store'dan istediğiniz uygulamanın sayfasına gidin</p>
-            <p>2. URL'yi kopyalayıp yukarıdaki alana yapıştırın</p>
-            <p><strong>Örnek:</strong> <code>https://play.google.com/store/apps/details?id=com.whatsapp</code></p>
+            <h3>💡 How to Use?</h3>
+            <p><strong>For Google Play Store:</strong></p>
+            <p>1. Go to the app page you want from Google Play Store</p>
+            <p>2. Copy the URL and paste it into the field above</p>
+            <p><strong>Example:</strong> <code>https://play.google.com/store/apps/details?id=com.whatsapp</code></p>
             
             <br>
             
-            <p><strong>App Store için:</strong></p>
-            <p>1. App Store'dan istediğiniz uygulamanın sayfasına gidin</p>
-            <p>2. URL'yi kopyalayıp yukarıdaki alana yapıştırın</p>
-            <p><strong>Örnek:</strong> <code>https://apps.apple.com/tr/app/whatsapp-messenger/id310633997</code></p>
+            <p><strong>For App Store:</strong></p>
+            <p>1. Go to the app page you want from App Store</p>
+            <p>2. Copy the URL and paste it into the field above</p>
+            <p><strong>Example:</strong> <code>https://apps.apple.com/tr/app/whatsapp-messenger/id310633997</code></p>
             
             <br>
             
-            <p>3. Platform, review sayısı ve sıralama türünü seçin</p>
-            <p>4. "CSV Olarak İndir" butonuna tıklayın</p>
+            <p>3. Select platform, review count and sort type</p>
+            <p>4. Click the "Download as CSV" button</p>
         </div>
     </div>
 
@@ -302,25 +302,25 @@
             const sortOrder = document.getElementById('sortOrder');
             
             if (platform === 'app-store') {
-                urlLabel.textContent = 'App Store Linki';
+                urlLabel.textContent = 'App Store Link';
                 urlInput.placeholder = 'https://apps.apple.com/tr/app/whatsapp-messenger/id310633997';
-                urlHelp.innerHTML = '🍎 App Store URL\'sini buraya yapıştırın';
+                urlHelp.innerHTML = '🍎 Paste the App Store URL here';
                 
                 // Update sort options for App Store
                 sortOrder.innerHTML = `
-                    <option value="mostRecent" selected>En Yeni</option>
-                    <option value="mostHelpful">En Yararlı</option>
+                    <option value="mostRecent" selected>Newest</option>
+                    <option value="mostHelpful">Most Helpful</option>
                 `;
             } else {
-                urlLabel.textContent = 'Google Play Store Linki';
+                urlLabel.textContent = 'Google Play Store Link';
                 urlInput.placeholder = 'https://play.google.com/store/apps/details?id=com.whatsapp';
-                urlHelp.innerHTML = '🤖 Google Play Store URL\'sini buraya yapıştırın';
+                urlHelp.innerHTML = '🤖 Paste the Google Play Store URL here';
                 
                 // Update sort options for Google Play
                 sortOrder.innerHTML = `
-                    <option value="newest" selected>En Yeni</option>
-                    <option value="rating">Puana Göre</option>
-                    <option value="helpfulness">Yararlılığa Göre</option>
+                    <option value="newest" selected>Newest</option>
+                    <option value="rating">By Rating</option>
+                    <option value="helpfulness">By Helpfulness</option>
                 `;
             }
         }
@@ -368,23 +368,23 @@
                     
                     result.className = 'result';
                     result.innerHTML = `
-                        <h3>✅ Başarıyla İndirildi!</h3>
-                        <p>${platformEmoji} <strong>${data.data.reviewCount}</strong> ${platformName} review CSV formatında kaydedildi</p>
-                        <p>Dosya boyutu: ${data.data.exportInfo.fileSizeFormatted}</p>
+                        <h3>✅ Successfully Downloaded!</h3>
+                        <p>${platformEmoji} <strong>${data.data.reviewCount}</strong> ${platformName} reviews saved in CSV format</p>
+                        <p>File size: ${data.data.exportInfo.fileSizeFormatted}</p>
                         <a href="${data.data.downloadUrl}" class="download-btn" download>
-                            📁 CSV Dosyasını İndir
+                            📁 Download CSV File
                         </a>
                     `;
                 } else {
-                    throw new Error(data.message || 'Bilinmeyen hata');
+                    throw new Error(data.message || 'Unknown error');
                 }
                 
             } catch (error) {
                 result.className = 'error';
                 result.innerHTML = `
-                    <h3>❌ Hata Oluştu</h3>
+                    <h3>❌ Error Occurred</h3>
                     <p>${error.message}</p>
-                    <p>Lütfen URL'yi kontrol edip tekrar deneyin.</p>
+                    <p>Please check the URL and try again.</p>
                 `;
             }
             
