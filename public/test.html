@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Page</title>
+</head>
+<body>
+    <h1>API Çalışıyor!</h1>
+    <p>Google Play Review API test sayfası</p>
+    <button onclick="testAPI()">API Test Et</button>
+    
+    <script>
+        async function testAPI() {
+            try {
+                const response = await fetch('/health');
+                const data = await response.json();
+                alert('API Response: ' + JSON.stringify(data));
+            } catch (error) {
+                alert('Error: ' + error.message);
+            }
+        }
+    </script>
+</body>
+</html>
